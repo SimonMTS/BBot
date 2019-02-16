@@ -14,6 +14,7 @@ class BBot:
 
 
     def main():
+        count = 0
         last_time = time.time()
 
         while True:
@@ -31,8 +32,12 @@ class BBot:
             moves.make( BBot.me, BBot.enemy, dist )
 
             #show screen
-            #print('Loop took {} MiliSeconds'.format( round((time.time()-last_time)*1000) ))
+            if count == 20:
+                print('Loop took {} MiliSeconds'.format( round((time.time()-last_time)*1000) ))
+                count = 0
+
             last_time = time.time()
+            count += 1
 
             #draw circles
             cv2.circle( screen, (BBot.me[0], BBot.me[1]), 25, (237,28,36), -1 )
@@ -46,7 +51,7 @@ class BBot:
 
 
     def match_me( screen ):
-        template = cv2.imread("assets/me4.png", 0)
+        template = cv2.imread("assets/meP1.png", 0)
         screen_gray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
         w, h = template.shape[::-1]
 
@@ -62,7 +67,7 @@ class BBot:
             cv2.rectangle(screen, top_left, bottom_right, (237,28,36), -2)
             #cv2.circle( screen, (top_left[0]+10, top_left[1]+61), 25, (237,28,36), -1 )
             BBot.me = [ top_left[0]+10, top_left[1]+61 ]
-            print( str(BBot.me[0]) + " - " + str(BBot.me[1]) )
+            #print( str(BBot.me[0]) + " - " + str(BBot.me[1]) )
             break
 
         return screen
